@@ -11,13 +11,13 @@ jobs:
     steps:
     - name: 读取仓库内容🤓
       uses: actions/checkout@v4
-    - name: 安装依赖&项目打包📦
-      run:  |
-        npm install
-        npm run build
-    - name: 部署🚀
-      uses: JamesIves/github-pages-deploy-action@v4
-      with: 
-        branch: gh-pages
-        folder: build
-    
+    - name: 登录dockerhub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - name: 构建Docker镜像并推送到DockerHub
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/l1-react-app:latest
