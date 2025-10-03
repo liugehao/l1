@@ -21,3 +21,5 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/l1-react-app:latest
+    - name: size
+      run: docker images
